@@ -3,6 +3,7 @@
 = Introduction =
 
 *dicomsender* was created as a side project, to be able to easily send test Dicom data to PACS servers.
+
 The typical use case is:
   * select the folder where your datasets are stored
   * select one file or folder
