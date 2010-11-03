@@ -54,8 +54,6 @@ public class MainFrame implements ActionListener {
 	//private static final String SERVER_CONFIG_FILE = "C:\\Users\\Fabien\\Documents\\java\\server.txt";
 	private static final String PROPERTIES_CONFIG_FILE =  propertiesFileLocation + "\\config.txt";
 	
-//	C:\Users\Fabien\workspace\dicomSender\jdicomstore
-	
 	private File defaultFile;
 	//private File selectedFile = null;
 	private static ArrayList<String> selectedFiles;
@@ -169,7 +167,7 @@ public class MainFrame implements ActionListener {
 	}
 	
 	
-	private SimpleStatusBar createStatusBar(){
+	private SimpleStatusBar createStatusBar() {
 		SimpleStatusBar statusBar = new SimpleStatusBar();
 		statusBar.setMessage(defaultFile);
 		return statusBar;
@@ -224,11 +222,13 @@ public class MainFrame implements ActionListener {
 		
 		//check if the default server is in the server list
 		boolean bDefaultInList = false;
-		if (serverArray.contains(new SimpleDicomArchive(p.getDefaultServer(), "127.0.0.1")))
-			bDefaultInList = true;
-		
-		if (!p.getDefaultServer().isEmpty() && bDefaultInList == true)
+		if (serverArray.contains(new SimpleDicomArchive(p.getDefaultServer(), "127.0.0.1"))) {
+			bDefaultInList = true;	
+		}
+
+		if (!p.getDefaultServer().isEmpty() && bDefaultInList == true) {
 			serverCombobox.setSelectedItem(p.getDefaultServer());
+		}
 		
 		toolbar.add(serverCombobox, BorderLayout.CENTER);
 		JLabel labelPort = new JLabel("Port");
@@ -237,8 +237,10 @@ public class MainFrame implements ActionListener {
 		portCombobox = new JComboBox(new String[] {DICOM_PORT_TASKS, DICOM_PORT_DEFAULT});
 		
 		// check if the default port is in the ports list
-		if (!p.getDefaultport().isEmpty() && (p.getDefaultport() == DICOM_PORT_DEFAULT || p.getDefaultport() == DICOM_PORT_TASKS ))
+		if (!p.getDefaultport().isEmpty() && 
+				(p.getDefaultport() == DICOM_PORT_DEFAULT || p.getDefaultport() == DICOM_PORT_TASKS)) {
 			portCombobox.setSelectedItem(p.getDefaultport());
+		}
 		
 		toolbar.addSeparator();
 		toolbar.add(portCombobox, BorderLayout.CENTER);
@@ -341,8 +343,7 @@ public class MainFrame implements ActionListener {
 
 		if (e.getSource() == exitMenuItem) {
 			System.exit(0);
-		}
-		else if (e.getSource() == aboutMenuItem){
+		} else if (e.getSource() == aboutMenuItem) {
 			
 			SimpleAboutDialog aboutDialog = new SimpleAboutDialog(mainFrame);
 			aboutDialog.showCentered();
@@ -360,7 +361,8 @@ public class MainFrame implements ActionListener {
 				sendButton.setEnabled(false);
 		        mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-				Dcm4cheImageSender dcmSender = Dcm4cheImageSender.getInstance(selectedHostname, Integer.parseInt(selectedPort));
+				Dcm4cheImageSender dcmSender = 
+					Dcm4cheImageSender.getInstance(selectedHostname, Integer.parseInt(selectedPort));
 				dcmSender.send(selectedFiles);
 				
 				sendButton.setEnabled(true);
@@ -429,18 +431,17 @@ public class MainFrame implements ActionListener {
 					// SwingUtilities.updateComponentTreeUI(chooser);
 					// SwingUtilities.updateComponentTreeUI(myframe);
 
-					MainFrame myframe = new MainFrame();
 					initializeProperties();
 					
-					
-					
+					MainFrame myframe = new MainFrame();
 					myframe.createGUI();
 
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 
-			private void initializeProperties() throws FileNotFoundException, IOException {
+			private void initializeProperties() throws IOException {
 				
 				try {
 					p = new PropertiesFileReader(new File(PROPERTIES_CONFIG_FILE));
@@ -469,9 +470,9 @@ public class MainFrame implements ActionListener {
 			} else {
 				
 				selectedFiles.clear();				
-				final int indexSelected[] = fileTable.getSelectedRows();
+				final int[] indexSelected = fileTable.getSelectedRows();
 				
-				for (int i = 0; i < indexSelected.length; i++){
+				for (int i = 0; i < indexSelected.length; i++) {
 					String path = (String) fileTable.getValueAt(indexSelected[i], 1);
 					path = defaultLocation + "\\" + path;
 					selectedFiles.add(path);

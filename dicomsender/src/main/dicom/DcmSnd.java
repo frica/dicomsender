@@ -632,7 +632,7 @@ class DcmSnd extends StorageCommitmentService {
                 assoc.cstore(info.cuid, info.iuid, priority, 
                 		new DataWriter(info), tsuid, rspHandler);
                 
-                if (!errorResponse.isEmpty() /*org.apache.commons.lang.StringUtils.isNotEmpty(errorResponse)*/) {
+                if (org.apache.commons.lang.StringUtils.isNotEmpty(errorResponse)) {
                 	throw new CustomException(errorResponse);
                 }
                 
